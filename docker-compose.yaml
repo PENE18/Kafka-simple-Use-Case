@@ -63,19 +63,6 @@ services:
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
  
  
-     
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.16.3
-    restart: always
-    ports:
-      - 5601:5601
-    environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
-    depends_on:
-      - elasticsearch   
- 
-
   adminer:
     image: adminer:latest
     ports:
@@ -137,15 +124,6 @@ services:
          chown 999:999 /tmp/keyfile.pem
          exec docker-entrypoint.sh $$@
     command: ["mongod", "--bind_ip", "0.0.0.0", "--replSet", "rs0", "--auth", "--keyFile", "/tmp/keyfile.pem"]
-
-  elasticsearch:
-    container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
-    ports:
-    - 9200:9200
-    environment:
-      discovery.type: single-node
-      ES_JAVA_OPTS: '-Xmx256M'
 
   ksql:
     container_name: ksql
